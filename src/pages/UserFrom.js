@@ -15,12 +15,21 @@ import {
   TextField,
   Checkbox,
 } from '@mui/material';
+
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import CircularProgress from '@mui/material/CircularProgress';
+
 // hooks
+
 import { LoadingButton } from '@mui/lab';
 import useResponsive from '../hooks/useResponsive';
+import UsersService from '../Featuers/Users/users'
 // components
+import db from '../api/firebase'
 import Logo from '../components/logo';
 import Iconify from '../components/iconify';
+import './style.css'
 // sections
 
 // components
@@ -56,28 +65,50 @@ const StyledContent = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function UserForm() {
-  const [User, setUser] = useState({
-    ApartmentNumber: 0,
-    City: '',
-    CompanyId: '',
-    ContactName: '',
-    Email: '',
-    Phone: '',
-    SecondPhone: '',
-    Street: '',
-    Cost: 0,
+  const [user, setUser] = useState({
+    apartmentNumber: 0,
+    city: '',
+    companyId: '',
+    contactName: '',
+    email: '',
+    phone: '',
+    secondPhone: '',
+    street: '',
+    cost: 0,
     ordersNumber: '',
     nextDelivery: '',
-    CustomerStatus: '',
+    customerStatus: '',
+    companyName:'',
+    createdAt:'',
+    lastUpdated:'',
+    active:false
   });
+
+  const handleUserInput=(event)=>{
+    const {name,value}=event.target
+    setUser(prevState=>({
+      ...prevState,
+      [name]:value
+    }))
+  }
 
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [showSuccess, setShowSucess] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   const handleClick = () => {
-    navigate('/dashboard', { replace: true });
+    const userAddResult=addUser();
+    if(userAddResult){
+       navigate('/dashboard', { replace: true });
+    }
   };
+
+  async function addUser() {
+     return UsersService.addUser(user,setLoader,setShowError,setShowSucess);
+  }
 
   return (
     <>
@@ -87,6 +118,14 @@ export default function UserForm() {
 
       <StyledRoot>
         <Container>
+          {loader &&
+                <>
+                <div style={{position:'absolute',top:'0%',height:'100vh',width:'120vh',opacity:0.13,backgroundColor:'#333'}}>
+              /
+              </div>
+              <CircularProgress color="success"  style={{position:'absolute',top:'50%',left:'55%'}}/>
+              </>
+          }
           <StyledContent>
             <Typography variant="h4" gutterBottom>
               Add User
@@ -96,9 +135,26 @@ export default function UserForm() {
 
             <>
               <Stack spacing={3}>
-                <TextField name="email" label="Email address" />
+                <Typography variant="h6" gutterBottom>
+                  Company Info  
+                </Typography>
+                <TextField name="companyName" label="Company Name" onChange={(e)=>handleUserInput(e)} required/>
+                <TextField name="companyId" label="Company Id" onChange={(e)=>handleUserInput(e)}/>
+                <TextField name="contactName" label="Contact Name" onChange={(e)=>handleUserInput(e)} required/>
+                <TextField type='email' name="email" label="Email" onChange={(e)=>handleUserInput(e)} required/>
+                <TextField name="phone" label="Phone" onChange={(e)=>handleUserInput(e)} required/>
+                <TextField name="secondPhone" label="Second Phone" onChange={(e)=>handleUserInput(e)}/>
 
-                <TextField
+                <Divider sx={{ my: 3 }} />
+                <Typography variant="h4" gutterBottom>
+                  Company Address
+                </Typography>
+
+                <TextField name="city" label="City" onChange={(e)=>handleUserInput(e)} required/>
+                <TextField name="street" label="Street" onChange={(e)=>handleUserInput(e)} required/>
+                <TextField type='number' name="apartmentNumber" label="Apartment Number" onChange={(e)=>handleUserInput(e)} required/>
+
+                {/* <TextField
                   name="password"
                   label="Password"
                   type={showPassword ? 'text' : 'password'}
@@ -111,21 +167,30 @@ export default function UserForm() {
                       </InputAdornment>
                     ),
                   }}
-                />
+                /> */}
               </Stack>
 
-              <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-                {/* <Checkbox name="remember" label="Remember me" />
-        <Link variant="subtitle2" underline="hover">
-          Forgot password?
-        </Link> */}
-              </Stack>
+ 
 
               <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleClick}>
-                Login
+                Add User
               </LoadingButton>
+              {showError&&
+              <Alert severity="error">
+                <AlertTitle>Error</AlertTitle>
+                This is an error alert — <strong>check it out!</strong>
+              </Alert>
+              }
+              {showSuccess &&
+              <Alert severity="success">
+                <AlertTitle>Success</AlertTitle>
+                This is a success alert — <strong>check it out!</strong>
+              </Alert>
+              }
             </>
           </StyledContent>
+
+
         </Container>
       </StyledRoot>
     </>
