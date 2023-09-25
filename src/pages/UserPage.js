@@ -55,8 +55,9 @@ import db from '../api/firebase';
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
   { id: 'company', label: 'Company', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
+  { id: 'Phone', label: 'Phone', alignRight: false },
+  { id: 'email', label: 'Email', alignRight: false },
+  { id: 'contact', label: 'ContactName', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: '' },
 ];
@@ -94,6 +95,7 @@ function applySortFilter(array, comparator, query) {
 
 export default function UserPage() {
   const [open, setOpen] = useState(null);
+  const [userToEdit,setUserToEdit] = useState(null);
 
   const [page, setPage] = useState(0);
 
@@ -113,7 +115,7 @@ export default function UserPage() {
   const navigate = useNavigate();
 
   const handleClickNewUser=()=>{
-    navigate('/dashboard/user-form', { replace: true });
+    navigate('/dashboard/user-form', { replace: true ,state:{user:null}});
   }
 
   useEffect(()=>{
@@ -121,10 +123,18 @@ export default function UserPage() {
   },[])
 
 
+const handleEditclick=(user)=>{
+  navigate('/dashboard/user-form', { 
+    replace: true,
+    state:{user}
+  });
+}
+  const handleDelete= (id)=>{
+    UsersService.deleteUsers(setShowLoader,setUsers,setError,id)
+  }
 
-
-
-  const handleOpenMenu = (event) => {
+  const handleOpenMenu = (event,user) => {
+    setUserToEdit(user)
     setOpen(event.currentTarget);
   };
 
@@ -242,17 +252,18 @@ export default function UserPage() {
 
                         <TableCell align="left">{row.phone}</TableCell>
 
-                        {/* <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell> */}
+                        <TableCell align="left">{row.email}</TableCell> 
+                        <TableCell align="left">{row.contactName}</TableCell> 
 
                         {/* <TableCell align="left">
                           <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
                         </TableCell> */}
 
-                        {/* <TableCell align="right">
-                          <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
+                        <TableCell align="right">
+                          <IconButton size="large" color="inherit" onClick={(e)=>handleOpenMenu(e,row)}>
                             <Iconify icon={'eva:more-vertical-fill'} />
                           </IconButton>
-                        </TableCell> */}
+                        </TableCell>
                       </TableRow>
                     );
                   })}
@@ -320,12 +331,12 @@ export default function UserPage() {
           },
         }}
       >
-        <MenuItem>
+        <MenuItem onClick={()=>handleEditclick(userToEdit)}>
           <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
           Edit
         </MenuItem>
 
-        <MenuItem sx={{ color: 'error.main' }}>
+        <MenuItem sx={{ color: 'error.main' }} onClick={()=>handleDelete(userToEdit.id)}>
           <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
           Delete
         </MenuItem>

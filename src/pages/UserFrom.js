@@ -1,7 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 // @mui
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState,useEffect } from 'react';
+import { useNavigate,useLocation } from 'react-router-dom';
+
 import { styled } from '@mui/material/styles';
 import {
   Link,
@@ -65,6 +66,9 @@ const StyledContent = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function UserForm() {
+ 
+  const location = useLocation();
+  const userToEdit = location.state.user;
   const [user, setUser] = useState({
     apartmentNumber: 0,
     city: '',
@@ -83,6 +87,12 @@ export default function UserForm() {
     lastUpdated:'',
     active:false
   });
+
+  useEffect(()=>{
+   if(userToEdit){
+    setUser({...userToEdit})
+   }
+  },[])
 
   const handleUserInput=(event)=>{
     const {name,value}=event.target
@@ -107,6 +117,9 @@ export default function UserForm() {
   };
 
   async function addUser() {
+     if(userToEdit){
+      return UsersService.updateUsers(user,setLoader,setShowError,setShowSucess,user.id);
+     }
      return UsersService.addUser(user,setLoader,setShowError,setShowSucess);
   }
 
@@ -138,21 +151,21 @@ export default function UserForm() {
                 <Typography variant="h6" gutterBottom>
                   Company Info  
                 </Typography>
-                <TextField name="companyName" label="Company Name" onChange={(e)=>handleUserInput(e)} required/>
-                <TextField name="companyId" label="Company Id" onChange={(e)=>handleUserInput(e)}/>
-                <TextField name="contactName" label="Contact Name" onChange={(e)=>handleUserInput(e)} required/>
-                <TextField type='email' name="email" label="Email" onChange={(e)=>handleUserInput(e)} required/>
-                <TextField name="phone" label="Phone" onChange={(e)=>handleUserInput(e)} required/>
-                <TextField name="secondPhone" label="Second Phone" onChange={(e)=>handleUserInput(e)}/>
+                <TextField name="companyName" label="Company Name" onChange={(e)=>handleUserInput(e)}  value={user.companyName}required/>
+                <TextField name="companyId" label="Company Id" onChange={(e)=>handleUserInput(e)} value={user.companyId} />
+                <TextField name="contactName" label="Contact Name" onChange={(e)=>handleUserInput(e)} value={user.contactName} required/>
+                <TextField type='email' name="email" label="Email" onChange={(e)=>handleUserInput(e)} value={user.email} required/>
+                <TextField name="phone" label="Phone" onChange={(e)=>handleUserInput(e)} value={user.phone} required/>
+                <TextField name="secondPhone" label="Second Phone" onChange={(e)=>handleUserInput(e)} value={user.secondPhone} />
 
                 <Divider sx={{ my: 3 }} />
                 <Typography variant="h4" gutterBottom>
                   Company Address
                 </Typography>
 
-                <TextField name="city" label="City" onChange={(e)=>handleUserInput(e)} required/>
-                <TextField name="street" label="Street" onChange={(e)=>handleUserInput(e)} required/>
-                <TextField type='number' name="apartmentNumber" label="Apartment Number" onChange={(e)=>handleUserInput(e)} required/>
+                <TextField name="city" label="City" onChange={(e)=>handleUserInput(e)} required value={user.city}/>
+                <TextField name="street" label="Street" onChange={(e)=>handleUserInput(e)} value={user.street} required/>
+                <TextField type='number' name="apartmentNumber" label="Apartment Number" onChange={(e)=>handleUserInput(e)} value={user.apartmentNumber} required/>
 
                 {/* <TextField
                   name="password"

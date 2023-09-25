@@ -61,5 +61,39 @@ import db from '../../api/firebase'
         }
 
        }
+
+       deleteUsers=async (setLoader,setUsers,setShowError,id)=>{
+        this.counter=2
+        try{
+         
+          setLoader(true) 
+          const userDoc = doc(db, "users", id);
+          const resut =deleteDoc(userDoc);
+          const users=(await getDocs(usersCollectionRef)).docs;
+          setUsers(users.map((doc)=>({...doc.data(),id:doc.id})));
+          setLoader(false);
+          }catch(error){
+           setLoader(false);
+           setShowError(true);
+           setTimeout(()=>{setShowError(false)},3000)
+           console.error("DeleteUsersError  -",error);
+          }
+       }
+
+       updateUsers=async (user,setLoader,setShowError,setShowSucess,id)=>{
+        this.counter=2
+        try{
+         
+          setLoader(true) 
+          const userDoc = doc(db, "users", id);
+          const updatedUser= updateDoc(userDoc, user);
+          setLoader(false);
+          }catch(error){
+           setLoader(false);
+           setShowError(true);
+           setTimeout(()=>{setShowError(false)},3000)
+           console.error("UpdateUsersError  -",error);
+          }
+       }
   }
   export default new UsersService();
