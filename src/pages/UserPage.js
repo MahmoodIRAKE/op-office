@@ -59,6 +59,7 @@ const TABLE_HEAD = [
   { id: 'email', label: 'Email', alignRight: false },
   { id: 'contact', label: 'ContactName', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
+  { id: 'action', label: 'Actions', alignRight: false },
   { id: '' },
 ];
 
@@ -254,6 +255,7 @@ const handleEditclick=(user)=>{
 
                         <TableCell align="left">{row.email}</TableCell> 
                         <TableCell align="left">{row.contactName}</TableCell> 
+                        <TableCell align="left">{row.status}</TableCell> 
 
                         {/* <TableCell align="left">
                           <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>

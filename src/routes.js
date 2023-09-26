@@ -10,6 +10,8 @@ import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 import UserForm from './pages/UserFrom';
+import CategoryForm from './pages/CategoryForm';
+import ProductForm from './pages/ProductForm';
 
 // ----------------------------------------------------------------------
 
@@ -28,7 +30,9 @@ export default function Router() {
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
+        { path: 'category-form', element: <CategoryForm /> },
         { path: 'user-form', element: <UserForm /> },
+        { path: 'product-form', element: <ProductForm /> },
       ],
     },
 
