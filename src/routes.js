@@ -12,6 +12,9 @@ import DashboardAppPage from './pages/DashboardAppPage';
 import UserForm from './pages/UserFrom';
 import CategoryForm from './pages/CategoryForm';
 import ProductForm from './pages/ProductForm';
+import CategoriesPage from './pages/CategoryManger';
+import ProductsManagerPage from './pages/ProductManager';
+import ProductProfile from './pages/ProductProfile';
 
 // ----------------------------------------------------------------------
 
@@ -33,6 +36,10 @@ export default function Router() {
         { path: 'category-form', element: <CategoryForm /> },
         { path: 'user-form', element: <UserForm /> },
         { path: 'product-form', element: <ProductForm /> },
+        { path: 'category-manager', element: <CategoriesPage/> },
+        { path: 'product-manager', element: <ProductsManagerPage/> },
+        { path: 'product-profile', element: <ProductProfile/> },
+
       ],
     },
 

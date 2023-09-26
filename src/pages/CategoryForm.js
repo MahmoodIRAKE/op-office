@@ -68,8 +68,7 @@ const StyledContent = styled('div')(({ theme }) => ({
 export default function CategoryForm() {
  
   const location = useLocation();
-  const categoryToEdit = null; 
-  // location.state.user;
+  const categoryToEdit = location.state.category;
   const [category, setCategory] = useState({
     name: "",
     desc:'',
@@ -79,6 +78,7 @@ export default function CategoryForm() {
   });
 
   useEffect(()=>{
+    console.log(categoryToEdit)
    if(categoryToEdit){
     setCategory({...categoryToEdit})
    }

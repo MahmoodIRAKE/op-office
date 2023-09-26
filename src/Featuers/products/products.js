@@ -86,9 +86,28 @@ import db from '../../api/firebase'
         this.counter=2
         try{
          
-          setLoader(true) 
+          setLoader(true)
+          const productToUpdate=images.length>0? {...product,    lastUpdated:serverTimestamp(),
+            image:images[0]} :{...product,    lastUpdated:serverTimestamp()}
           const productDoc = doc(db, "products", id);
-          const updatedProduct= updateDoc(productDoc, product);
+          const updatedProduct= updateDoc(productDoc, productToUpdate);
+          setLoader(false);
+          }catch(error){
+           setLoader(false);
+           setShowError(true);
+           setTimeout(()=>{setShowError(false)},3000)
+           console.error("UpdateProductsError  -",error);
+          }
+       }
+
+       updateProductActive=async (product,setLoader,setShowError,setShowSucess,id,active)=>{
+        this.counter=2
+        try{
+         
+          setLoader(true)
+          const productToUpdate={...product,lastUpdated:serverTimestamp(),active}
+          const productDoc = doc(db, "products", id);
+          const updatedProduct= updateDoc(productDoc, productToUpdate);
           setLoader(false);
           }catch(error){
            setLoader(false);

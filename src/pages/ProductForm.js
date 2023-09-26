@@ -74,10 +74,10 @@ const StyledContent = styled('div')(({ theme }) => ({
 export default function ProductForm() {
  
   const location = useLocation();
-  const productToEdit = null; 
+  const productToEdit =  location.state.product; 
   const [imageUpload, setImageUpload] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
-  // location.state.user;
+  
   const [product, setProduct] = useState({
     name: "",
     desc:'',
@@ -126,7 +126,7 @@ export default function ProductForm() {
 
   async function addProduct() {
      if(productToEdit){
-      return ProductServices.updateProduct(product,setLoader,setShowError,setShowSucess,product.id,imageUrls);
+      return ProductServices.updateProducts(product,setLoader,setShowError,setShowSucess,product.id,imageUrls);
      }
      return ProductServices.addProduct(product,setLoader,setShowError,setShowSucess,imageUrls);
   }
@@ -184,7 +184,14 @@ export default function ProductForm() {
                imageUpload={imageUpload}
               
               />
-
+              {productToEdit?
+              <>
+              <Typography variant="h6" gutterBottom>
+                Existing Image
+              </Typography>
+               <img src={product.image} alt={'product'} height={200} width={200} />
+               </>
+              :<></>}
               <Divider sx={{ my: 3 }} />
 
               <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleClick}>

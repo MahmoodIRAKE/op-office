@@ -1,5 +1,16 @@
-.loader:{
+.loader{
   background-color: red;
   width: 100px;
   height: 100px;
+}
+
+.productContainer{
+  display: flex;
+  height: 70vh;
+}
+.info{
+  width: 50%;
+}
+.image{
+  width:50%
 }
