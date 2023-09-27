@@ -15,6 +15,8 @@ import ProductForm from './pages/ProductForm';
 import CategoriesPage from './pages/CategoryManger';
 import ProductsManagerPage from './pages/ProductManager';
 import ProductProfile from './pages/ProductProfile';
+import CartScreen from './pages/CartScreen';
+import OrdersAdminPage from './pages/OrdersAdmin';
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +41,8 @@ export default function Router() {
         { path: 'category-manager', element: <CategoriesPage/> },
         { path: 'product-manager', element: <ProductsManagerPage/> },
         { path: 'product-profile', element: <ProductProfile/> },
+        { path: 'cart', element: <CartScreen/> },
+        { path: 'orders-admin', element: <OrdersAdminPage/> },
 
       ],
     },

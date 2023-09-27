@@ -1,17 +1,22 @@
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux'
-
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
 //
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import reportWebVitals from './reportWebVitals';
 import store from './Featuers/store'
+
 // ----------------------------------------------------------------------
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const  persistor=persistStore(store)
 
 root.render(<Provider store={store}>
+  <PersistGate persistor={persistor}>
     <App />
+    </PersistGate>
   </Provider>);
 
 // If you want to enable client cache, register instead.
