@@ -257,25 +257,25 @@ const handleEditclick=(product)=>{
                           {/* <Checkbox checked={row.active} onChange={(event) => {}} /> */}
                         </TableCell>
                         <TableCell padding="checkbox">
-                          <Checkbox checked={row.active} onChange={(event)=>handleActive(row)} />
+                          <Checkbox checked={row?.active} onChange={(event)=>handleActive(row)} />
                         </TableCell>
 
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
                             <Typography variant="subtitle2" noWrap>
-                              {row.name}
+                              {row?.name}
                             </Typography>
                           </Stack>
                         </TableCell>
 
-                        <TableCell align="left">{row.desc}</TableCell>
-                        <TableCell align="left">{findCategoryname(row.categoryId).name}</TableCell>
+                        <TableCell align="left">{row?.desc}</TableCell>
+                        <TableCell align="left">{findCategoryname(row?.categoryId)?.name}</TableCell>
                         <TableCell align="left">
-                            <img src={row.image} alt={'product'} height={200} width={200} />
+                            <img src={row?.image} alt={'product'} height={200} width={200} />
                         </TableCell>
-                        <TableCell align="left">{row.price}</TableCell>
-                        <TableCell align="left">{row.qty}</TableCell>
-                        <TableCell align="left">{row.rating}</TableCell>
+                        <TableCell align="left">{row?.price}</TableCell>
+                        <TableCell align="left">{row?.qty}</TableCell>
+                        <TableCell align="left">{row?.rating}</TableCell>
 
 
                         {/* <TableCell align="left">

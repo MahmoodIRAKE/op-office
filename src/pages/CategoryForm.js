@@ -68,7 +68,7 @@ const StyledContent = styled('div')(({ theme }) => ({
 export default function CategoryForm() {
  
   const location = useLocation();
-  const categoryToEdit = location.state.category;
+  const categoryToEdit = location?.state?.category;
   const [category, setCategory] = useState({
     name: "",
     desc:'',

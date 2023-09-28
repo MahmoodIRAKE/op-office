@@ -4,6 +4,8 @@ import { ORDER_PAYMENT_STATUS,ORDER_STATUS,DELIVERY_STATUS } from './orderConsta
 export const cartSlice = createSlice({
   name: 'order',
   initialState: {
+    user:'',
+    password:'',
     id:'',
     createdAt:'',
     updatedAt:'',
@@ -90,8 +92,9 @@ export const cartSlice = createSlice({
 state.products=[]
 state.userId=''
    },
-    increment: (state) => {
-      state.value += 1
+    setPassword: (state,action) => {
+      state.user = action.payload.user
+      state.password=action.payload.password
     },
     decrement: (state) => {
       state.value -= 1
@@ -103,6 +106,6 @@ state.userId=''
 })
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount,addToCart,addToQty,removeProdut,removeQty, initilaizeOrder,emptyOrder } = cartSlice.actions
+export const { increment, decrement, incrementByAmount,addToCart,addToQty,removeProdut,removeQty, initilaizeOrder,emptyOrder,setPassword } = cartSlice.actions
 
 export default cartSlice.reducer

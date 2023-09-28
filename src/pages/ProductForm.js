@@ -74,7 +74,7 @@ const StyledContent = styled('div')(({ theme }) => ({
 export default function ProductForm() {
  
   const location = useLocation();
-  const productToEdit =  location.state.product; 
+  const productToEdit =  location?.state?.product; 
   const [imageUpload, setImageUpload] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
   
